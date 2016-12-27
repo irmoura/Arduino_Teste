@@ -82,7 +82,8 @@ public class Tela extends javax.swing.JFrame {
         porta = porta.replace("[", "");
         porta = porta.replace("]", "");
         try {
-            arduino.arduinoRXTX(porta, 9600, listener);
+            //COM5 - BLUETOOTH
+            arduino.arduinoRXTX("COM5", 9600, listener);
         } catch (ArduinoException ex) {
             System.out.println("O Arduino não está conectado.");
         }
@@ -150,9 +151,18 @@ public class Tela extends javax.swing.JFrame {
         BTN_ON_OFF.setBackground(Color.red);
         
 /******************************************************************************/
-System.out.println("::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::"
-                + "\nPortas Disponíveis: "+arduino.getPortsAvailable()
+        if(Integer.parseInt(""+arduino.getPortsAvailable()) == 0){
+            System.out.println("::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::"
+                + "\nNenhuma Porta Disponível.");
+        }else if(Integer.parseInt(""+arduino.getPortsAvailable()) == 1){
+            System.out.println("::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::"
+                + "\nPorta Disponível: "+arduino.getPortsAvailable()
                 + "\nNome da Porta: "+porta);
+        }else{
+            System.out.println("::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::"
+                + "\nPortas Disponíveis: "+arduino.getPortsAvailable()
+                + "\nNome das Portas: "+porta);
+        }
 /******************************************************************************/
         
     }//GEN-LAST:event_formWindowOpened
