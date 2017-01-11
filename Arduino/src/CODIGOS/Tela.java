@@ -23,7 +23,7 @@ public class Tela extends javax.swing.JFrame {
     private PanamaHitek_Arduino arduino = new PanamaHitek_Arduino();
     
     public String porta;
-    public boolean clique = false;
+    public String mensagem_da_serial;
 
     /**
      * Creates new form Tela
@@ -34,16 +34,19 @@ public class Tela extends javax.swing.JFrame {
         public void serialEvent(SerialPortEvent spe) {
             try {
                 if (arduino.isMessageAvailable()) {
-//                    System.out.println("Comando via Bluetooth ...");
-//                        if(!(BTN_ON_OFF.isSelected())){
-//                        BTN_ON_OFF.setSelected(true);
-//                        BTN_ON_OFF.setText("ON");
-//                        BTN_ON_OFF.setBackground(Color.green);
-//                    }else{
-//                        BTN_ON_OFF.setSelected(false);
-//                        BTN_ON_OFF.setText("OFF");
-//                        BTN_ON_OFF.setBackground(Color.red);
-//                    }
+                    mensagem_da_serial = ""+arduino.printMessage();
+/******************************************************************************/
+                     if(mensagem_da_serial.equals("ligado")){
+                        BTN_ON_OFF.setSelected(true);
+                        BTN_ON_OFF.setText("ON");
+                        BTN_ON_OFF.setBackground(Color.green);
+                    }else
+                        if(mensagem_da_serial.equals("desligado")){
+                        BTN_ON_OFF.setSelected(false);
+                        BTN_ON_OFF.setText("OFF");
+                        BTN_ON_OFF.setBackground(Color.red);
+                    }
+/******************************************************************************/
                 }
             } catch (SerialPortException | ArduinoException ex) {
 //                Logger.getLogger(Tela.class.getName()).log(Level.SEVERE, null, ex);
@@ -54,9 +57,7 @@ public class Tela extends javax.swing.JFrame {
     public void on(){
         try {
             arduino.sendData("a");
-        } catch (ArduinoException ex) {
-            Logger.getLogger(Tela.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SerialPortException ex) {
+        } catch (ArduinoException | SerialPortException ex) {
             Logger.getLogger(Tela.class.getName()).log(Level.SEVERE, null, ex);
         }
         BTN_ON_OFF.setSelected(true);
@@ -66,9 +67,7 @@ public class Tela extends javax.swing.JFrame {
     public void off(){
         try {
             arduino.sendData("a");
-        } catch (ArduinoException ex) {
-            Logger.getLogger(Tela.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SerialPortException ex) {
+        } catch (ArduinoException | SerialPortException ex) {
             Logger.getLogger(Tela.class.getName()).log(Level.SEVERE, null, ex);
         }
         BTN_ON_OFF.setSelected(false);
@@ -83,7 +82,7 @@ public class Tela extends javax.swing.JFrame {
         porta = porta.replace("]", "");
         try {
             //COM5 - BLUETOOTH
-            arduino.arduinoRXTX("COM5", 9600, listener);
+            arduino.arduinoRXTX("COM6", 9600, listener);
         } catch (ArduinoException ex) {
             System.out.println("O Arduino não está conectado.");
         }
@@ -99,6 +98,8 @@ public class Tela extends javax.swing.JFrame {
     private void initComponents() {
 
         BTN_ON_OFF = new javax.swing.JToggleButton();
+        jLabelPortasDisponiveis = new javax.swing.JLabel();
+        jComboBox1 = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -114,21 +115,32 @@ public class Tela extends javax.swing.JFrame {
             }
         });
 
+        jLabelPortasDisponiveis.setText("Portas Disponíveis :");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(100, 100, 100)
-                .addComponent(BTN_ON_OFF)
-                .addContainerGap(124, Short.MAX_VALUE))
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabelPortasDisponiveis)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(BTN_ON_OFF))
+                .addContainerGap(141, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(59, 59, 59)
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabelPortasDisponiveis)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 86, Short.MAX_VALUE)
                 .addComponent(BTN_ON_OFF)
-                .addContainerGap(69, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
@@ -137,7 +149,6 @@ public class Tela extends javax.swing.JFrame {
 
     private void BTN_ON_OFFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTN_ON_OFFActionPerformed
         // TODO add your handling code here:
-        clique = true;
         if(BTN_ON_OFF.isSelected()){
                 on();
         }else{
@@ -151,18 +162,23 @@ public class Tela extends javax.swing.JFrame {
         BTN_ON_OFF.setBackground(Color.red);
         
 /******************************************************************************/
-        if(Integer.parseInt(""+arduino.getPortsAvailable()) == 0){
-            System.out.println("::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::"
-                + "\nNenhuma Porta Disponível.");
-        }else if(Integer.parseInt(""+arduino.getPortsAvailable()) == 1){
-            System.out.println("::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::"
-                + "\nPorta Disponível: "+arduino.getPortsAvailable()
-                + "\nNome da Porta: "+porta);
-        }else{
-            System.out.println("::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::"
-                + "\nPortas Disponíveis: "+arduino.getPortsAvailable()
-                + "\nNome das Portas: "+porta);
+        switch (Integer.parseInt(""+arduino.getPortsAvailable())) {
+            case 0:
+                System.out.println("::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::"
+                        + "\nNenhuma Porta Disponível.");
+                break;
+            case 1:
+                System.out.println("::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::"
+                        + "\nPorta Disponível: "+arduino.getPortsAvailable()
+                        + "\nNome da Porta: "+porta);
+                break;
+            default:
+                System.out.println("::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::"
+                        + "\nPortas Disponíveis: "+arduino.getPortsAvailable()
+                        + "\nNome das Portas: "+porta);
+                break;
         }
+        jComboBox1.addItem(porta);
 /******************************************************************************/
         
     }//GEN-LAST:event_formWindowOpened
@@ -202,14 +218,14 @@ public class Tela extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Tela().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new Tela().setVisible(true);
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToggleButton BTN_ON_OFF;
+    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JLabel jLabelPortasDisponiveis;
     // End of variables declaration//GEN-END:variables
 }
