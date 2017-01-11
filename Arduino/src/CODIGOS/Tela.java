@@ -8,6 +8,7 @@ package CODIGOS;
 import com.panamahitek.ArduinoException;
 import com.panamahitek.PanamaHitek_Arduino;
 import java.awt.Color;
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import jssc.SerialPortEvent;
@@ -22,12 +23,28 @@ public class Tela extends javax.swing.JFrame {
     
     private PanamaHitek_Arduino arduino = new PanamaHitek_Arduino();
     
-    public String porta;
+    public String porta = "";
     public String mensagem_da_serial;
 
     /**
      * Creates new form Tela
+     * @param nomeDoAudio
      */
+    
+    public void define_Portas_Disponiveis(){
+        String[] s = porta.split(", ");
+        for(int i = 0; i < s.length; i++){
+            jComboBox1.addItem(s[i]);
+        }
+    }
+    
+    public void play(String nomeDoAudio){
+        try {
+            Runtime.getRuntime().exec("cmd /c start /B C:\\GA_XLSX\\Player\\dist\\Player.jar "+nomeDoAudio);
+        } catch (IOException ex) {
+            Logger.getLogger(Tela.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     
     private SerialPortEventListener listener = new SerialPortEventListener() {
         @Override
@@ -37,6 +54,7 @@ public class Tela extends javax.swing.JFrame {
                     mensagem_da_serial = ""+arduino.printMessage();
 /******************************************************************************/
                      if(mensagem_da_serial.equals("ligado")){
+                        play("ligado");
                         BTN_ON_OFF.setSelected(true);
                         BTN_ON_OFF.setText("ON");
                         BTN_ON_OFF.setBackground(Color.green);
@@ -45,6 +63,7 @@ public class Tela extends javax.swing.JFrame {
                         BTN_ON_OFF.setSelected(false);
                         BTN_ON_OFF.setText("OFF");
                         BTN_ON_OFF.setBackground(Color.red);
+                        play("desligado");
                     }
 /******************************************************************************/
                 }
@@ -81,7 +100,6 @@ public class Tela extends javax.swing.JFrame {
         porta = porta.replace("[", "");
         porta = porta.replace("]", "");
         try {
-            //COM5 - BLUETOOTH
             arduino.arduinoRXTX("COM6", 9600, listener);
         } catch (ArduinoException ex) {
             System.out.println("O Arduino não está conectado.");
@@ -171,14 +189,15 @@ public class Tela extends javax.swing.JFrame {
                 System.out.println("::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::"
                         + "\nPorta Disponível: "+arduino.getPortsAvailable()
                         + "\nNome da Porta: "+porta);
+                define_Portas_Disponiveis();
                 break;
             default:
                 System.out.println("::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::"
                         + "\nPortas Disponíveis: "+arduino.getPortsAvailable()
                         + "\nNome das Portas: "+porta);
+                define_Portas_Disponiveis();
                 break;
         }
-        jComboBox1.addItem(porta);
 /******************************************************************************/
         
     }//GEN-LAST:event_formWindowOpened
