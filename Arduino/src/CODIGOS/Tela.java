@@ -30,7 +30,16 @@ public class Tela extends javax.swing.JFrame {
 
     /**
      * Creates new form Tela
+     * @param comando
      */
+    
+    public void program(String comando){
+        try {
+            Runtime.getRuntime().exec("cmd /c start "+comando+".exe");
+        } catch (IOException ex) {
+            Logger.getLogger(Tela.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     
     public void define_Portas_Disponiveis(){
         String[] s = porta.split(", ");
@@ -74,7 +83,15 @@ public class Tela extends javax.swing.JFrame {
                         BTN_ON_OFF.setSelected(false);
                         BTN_ON_OFF.setText("OFF");
                         BTN_ON_OFF.setBackground(Color.red);
-                    }else{
+                    }else
+                        if(mensagem_da_serial.equals("Abrir navegador")){
+                            program("chrome");
+                        }
+                        else
+                        if(mensagem_da_serial.equals("Abrir calculadora")){
+                            program("calc");
+                        }
+                        else{
                             System.out.println(mensagem_da_serial);
                         }
 /******************************************************************************/
