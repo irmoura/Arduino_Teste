@@ -7,6 +7,7 @@ package CODIGOS;
 
 import com.panamahitek.ArduinoException;
 import com.panamahitek.PanamaHitek_Arduino;
+import javax.swing.*;
 import java.awt.Color;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -24,17 +25,26 @@ public class Tela extends javax.swing.JFrame {
     private PanamaHitek_Arduino arduino = new PanamaHitek_Arduino();
     
     public String porta = "";
+    public String porta_selecionada;
     public String mensagem_da_serial;
 
     /**
      * Creates new form Tela
-     * @param nomeDoAudio
      */
     
     public void define_Portas_Disponiveis(){
         String[] s = porta.split(", ");
-        for(int i = 0; i < s.length; i++){
-            jComboBox1.addItem(s[i]);
+        for (String item : s) {
+            jComboBox1.addItem(item);
+        }
+    }
+    
+    public void inicia_comunicao(String porta_selecionada){
+        try {
+            arduino.arduinoRXTX(this.porta_selecionada, 9600, listener);
+        } catch (ArduinoException ex) {
+            JOptionPane.showMessageDialog(null,"O Arduino não está conectado ou a porta selecionada não é a correta.");
+            System.exit(0);
         }
     }
     
@@ -96,14 +106,6 @@ public class Tela extends javax.swing.JFrame {
     
     public Tela() {
         initComponents();
-        porta = ""+arduino.getSerialPorts();
-        porta = porta.replace("[", "");
-        porta = porta.replace("]", "");
-        try {
-            arduino.arduinoRXTX("COM6", 9600, listener);
-        } catch (ArduinoException ex) {
-            System.out.println("O Arduino não está conectado.");
-        }
     }
 
     /**
@@ -118,8 +120,11 @@ public class Tela extends javax.swing.JFrame {
         BTN_ON_OFF = new javax.swing.JToggleButton();
         jLabelPortasDisponiveis = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox<>();
+        jButton_Conectar = new javax.swing.JButton();
+        jButton_Sair = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
@@ -135,6 +140,20 @@ public class Tela extends javax.swing.JFrame {
 
         jLabelPortasDisponiveis.setText("Portas Disponíveis :");
 
+        jButton_Conectar.setText("CONECTAR");
+        jButton_Conectar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_ConectarActionPerformed(evt);
+            }
+        });
+
+        jButton_Sair.setText("SAIR");
+        jButton_Sair.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_SairActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -147,7 +166,11 @@ public class Tela extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(BTN_ON_OFF))
-                .addContainerGap(141, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton_Sair)
+                    .addComponent(jButton_Conectar))
+                .addContainerGap(36, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -155,9 +178,12 @@ public class Tela extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelPortasDisponiveis)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 86, Short.MAX_VALUE)
-                .addComponent(BTN_ON_OFF)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton_Conectar))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 83, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(BTN_ON_OFF)
+                    .addComponent(jButton_Sair))
                 .addContainerGap())
         );
 
@@ -177,7 +203,12 @@ public class Tela extends javax.swing.JFrame {
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
         
+        porta = ""+arduino.getSerialPorts();
+        porta = porta.replace("[", "");
+        porta = porta.replace("]", "");
+        
         BTN_ON_OFF.setBackground(Color.red);
+        BTN_ON_OFF.setEnabled(false);
         
 /******************************************************************************/
         switch (Integer.parseInt(""+arduino.getPortsAvailable())) {
@@ -201,6 +232,18 @@ public class Tela extends javax.swing.JFrame {
 /******************************************************************************/
         
     }//GEN-LAST:event_formWindowOpened
+
+    private void jButton_ConectarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_ConectarActionPerformed
+        // TODO add your handling code here:
+        porta_selecionada = ""+jComboBox1.getSelectedItem();
+        inicia_comunicao(porta_selecionada);
+        BTN_ON_OFF.setEnabled(true);
+    }//GEN-LAST:event_jButton_ConectarActionPerformed
+
+    private void jButton_SairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_SairActionPerformed
+        // TODO add your handling code here:
+        System.exit(0);
+    }//GEN-LAST:event_jButton_SairActionPerformed
 
     /**
      * @param args the command line arguments
@@ -244,6 +287,8 @@ public class Tela extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToggleButton BTN_ON_OFF;
+    private javax.swing.JButton jButton_Conectar;
+    private javax.swing.JButton jButton_Sair;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabelPortasDisponiveis;
     // End of variables declaration//GEN-END:variables
