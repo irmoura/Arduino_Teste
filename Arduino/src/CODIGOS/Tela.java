@@ -63,18 +63,20 @@ public class Tela extends javax.swing.JFrame {
                 if (arduino.isMessageAvailable()) {
                     mensagem_da_serial = ""+arduino.printMessage();
 /******************************************************************************/
-                     if(mensagem_da_serial.equals("ligado")){
+                     if(mensagem_da_serial.equals("ligar")){
                         play("ligado");
                         BTN_ON_OFF.setSelected(true);
                         BTN_ON_OFF.setText("ON");
                         BTN_ON_OFF.setBackground(Color.green);
                     }else
-                        if(mensagem_da_serial.equals("desligado")){
+                        if(mensagem_da_serial.equals("desligar")){
                         play("desligado");
                         BTN_ON_OFF.setSelected(false);
                         BTN_ON_OFF.setText("OFF");
                         BTN_ON_OFF.setBackground(Color.red);
-                    }
+                    }else{
+                            System.out.println(mensagem_da_serial);
+                        }
 /******************************************************************************/
                 }
             } catch (SerialPortException | ArduinoException ex) {
@@ -85,7 +87,7 @@ public class Tela extends javax.swing.JFrame {
     
     public void on(){
         try {
-            arduino.sendData("a");
+            arduino.sendData("ligar");
         } catch (ArduinoException | SerialPortException ex) {
             Logger.getLogger(Tela.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -95,7 +97,7 @@ public class Tela extends javax.swing.JFrame {
     }
     public void off(){
         try {
-            arduino.sendData("a");
+            arduino.sendData("desligar");
         } catch (ArduinoException | SerialPortException ex) {
             Logger.getLogger(Tela.class.getName()).log(Level.SEVERE, null, ex);
         }
