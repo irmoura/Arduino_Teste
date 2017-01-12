@@ -221,6 +221,12 @@ public class Tela extends javax.swing.JFrame {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
+        /*ABRIR O NAVEGADOR EDGE*/
+//        try {
+//        Runtime.getRuntime().exec("cmd /c start %windir%\\explorer.exe shell:Appsfolder\\Microsoft.MicrosoftEdge_8wekyb3d8bbwe!MicrosoftEdge");
+//        } catch (IOException ex) {
+//            Logger.getLogger(Tela.class.getName()).log(Level.SEVERE, null, ex);
+//        }
         
         porta = ""+arduino.getSerialPorts();
         porta = porta.replace("[", "");
