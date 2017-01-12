@@ -7,7 +7,7 @@ package CODIGOS;
 
 import com.panamahitek.ArduinoException;
 import com.panamahitek.PanamaHitek_Arduino;
-import javax.swing.*;
+import javax.swing.JOptionPane;
 import java.awt.Color;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -56,7 +56,7 @@ public class Tela extends javax.swing.JFrame {
         }
     }
     
-    private SerialPortEventListener listener = new SerialPortEventListener() {
+    private final SerialPortEventListener listener = new SerialPortEventListener() {
         @Override
         public void serialEvent(SerialPortEvent spe) {
             try {
@@ -70,10 +70,10 @@ public class Tela extends javax.swing.JFrame {
                         BTN_ON_OFF.setBackground(Color.green);
                     }else
                         if(mensagem_da_serial.equals("desligado")){
+                        play("desligado");
                         BTN_ON_OFF.setSelected(false);
                         BTN_ON_OFF.setText("OFF");
                         BTN_ON_OFF.setBackground(Color.red);
-                        play("desligado");
                     }
 /******************************************************************************/
                 }
