@@ -7,11 +7,16 @@ package CODIGOS;
 
 import com.panamahitek.ArduinoException;
 import com.panamahitek.PanamaHitek_Arduino;
+import java.awt.AWTException;
 import javax.swing.JOptionPane;
 import java.awt.Color;
+import java.awt.MouseInfo;
+import java.awt.Robot;
+import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.Timer;
 import jssc.SerialPortEvent;
 import jssc.SerialPortEventListener;
 import jssc.SerialPortException;
@@ -22,16 +27,76 @@ import jssc.SerialPortException;
  */
 public class Tela extends javax.swing.JFrame {
     
-    private PanamaHitek_Arduino arduino = new PanamaHitek_Arduino();
+    public PanamaHitek_Arduino arduino = new PanamaHitek_Arduino();
+    public Timer timer;
+    public Robot bot;
     
     public String porta = "";
     public String porta_selecionada;
     public String mensagem_da_serial;
+    
+    public int HORIZONTAL, VERTICAL, count;
 
     /**
      * Creates new form Tela
      * @param comando
      */
+    
+    public void robo(String comando){
+        timer = new Timer(80, (ActionEvent e) ->{
+            try {
+                bot = new Robot();
+                HORIZONTAL = Integer.parseInt(""+MouseInfo.getPointerInfo().getLocation().x);
+                VERTICAL = Integer.parseInt(""+MouseInfo.getPointerInfo().getLocation().y);
+                if(comando.equals("mouse para cima")){
+                    VERTICAL--;
+                    bot.mouseMove(HORIZONTAL, VERTICAL);
+                }
+                else
+                if(comando.equals("mouse para baixo")){
+                    VERTICAL++;
+                    bot.mouseMove(HORIZONTAL, VERTICAL);
+                }
+                else
+                if(comando.equals("mouse para esquerda")){
+                    HORIZONTAL--;
+                    bot.mouseMove(HORIZONTAL, VERTICAL);
+                }
+                else
+                if(comando.equals("mouse para direita")){
+                    HORIZONTAL++;
+                    bot.mouseMove(HORIZONTAL, VERTICAL);
+                }
+                else
+                if(comando.equals("Mouse superior esquerda")){
+                    HORIZONTAL--;
+                    VERTICAL--;
+                    bot.mouseMove(HORIZONTAL, VERTICAL);
+                }
+                else
+                if(comando.equals("Mouse superior direita")){
+                    HORIZONTAL++;
+                    VERTICAL--;
+                    bot.mouseMove(HORIZONTAL, VERTICAL);
+                }
+                else
+                if(comando.equals("Mouse inferior esquerda")){
+                    HORIZONTAL--;
+                    VERTICAL++;
+                    bot.mouseMove(HORIZONTAL, VERTICAL);
+                }
+                else
+                if(comando.equals("Mouse inferior direita")){
+                    HORIZONTAL++;
+                    VERTICAL++;
+                    bot.mouseMove(HORIZONTAL, VERTICAL);
+                }
+            } catch (AWTException ex) {
+                Logger.getLogger(Tela.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
+        timer.start();
+    }
     
     public void program(String comando){
         try {
@@ -84,8 +149,64 @@ public class Tela extends javax.swing.JFrame {
                         BTN_ON_OFF.setText("OFF");
                         BTN_ON_OFF.setBackground(Color.red);
                     }else
-                        if(mensagem_da_serial.equals("Abrir navegador")){
+                        if(mensagem_da_serial.equals("Abrir Google Chrome")){
                             program("chrome");
+                        }
+                        else
+                        if(mensagem_da_serial.equals("Abrir Paint")){
+                            program("mspaint");
+                        }
+                        else
+                        if(mensagem_da_serial.equals("mouse para cima")){
+                            timer.stop();
+                            robo("mouse para cima");
+                        }
+                        else
+                        if(mensagem_da_serial.equals("Mouse superior esquerda")){
+                            timer.stop();
+                            robo("Mouse superior esquerda");
+                        }
+                        else
+                        if(mensagem_da_serial.equals("Mouse inferior esquerda")){
+                            timer.stop();
+                            robo("Mouse inferior esquerda");
+                        }
+                        else
+                        if(mensagem_da_serial.equals("Mouse superior direita")){
+                            timer.stop();
+                            robo("Mouse superior direita");
+                        }
+                        else
+                        if(mensagem_da_serial.equals("Mouse inferior direita")){
+                            timer.stop();
+                            robo("Mouse inferior direita");
+                        }
+                        else
+                        if(mensagem_da_serial.equals("mouse para baixo")){
+                            timer.stop();
+                            robo("mouse para baixo");
+                        }
+                        else
+                        if(mensagem_da_serial.equals("mouse para esquerda")){
+                            timer.stop();
+                            robo("mouse para esquerda");
+                        }
+                        else
+                        if(mensagem_da_serial.equals("mouse para direita")){
+                            timer.stop();
+                            robo("mouse para direita");
+                        }
+                        else
+                        if(mensagem_da_serial.equals("parar Mouse")){
+                            timer.stop();
+                        }
+                        else
+                        if(mensagem_da_serial.equals("Abrir AD")){
+                            try {
+                            Runtime.getRuntime().exec("cmd /c start %windir%\\explorer.exe shell:Appsfolder\\Microsoft.MicrosoftEdge_8wekyb3d8bbwe!MicrosoftEdge");
+                            } catch (IOException ex) {
+                            Logger.getLogger(Tela.class.getName()).log(Level.SEVERE, null, ex);
+                            }
                         }
                         else
                         if(mensagem_da_serial.equals("Abrir calculadora")){
@@ -221,12 +342,10 @@ public class Tela extends javax.swing.JFrame {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
-        /*ABRIR O NAVEGADOR EDGE*/
-//        try {
-//        Runtime.getRuntime().exec("cmd /c start %windir%\\explorer.exe shell:Appsfolder\\Microsoft.MicrosoftEdge_8wekyb3d8bbwe!MicrosoftEdge");
-//        } catch (IOException ex) {
-//            Logger.getLogger(Tela.class.getName()).log(Level.SEVERE, null, ex);
-//        }
+        
+        /*APENAS INICIALIZANDO O TIMER*/
+        timer = new Timer(1000, (ActionEvent e) ->{
+        });
         
         porta = ""+arduino.getSerialPorts();
         porta = porta.replace("[", "");
