@@ -34,6 +34,11 @@ public class Duas_Frases {
         bot.keyRelease(KeyEvent.VK_CONTROL);
         }
         else
+        if(p1.equals("sem") && p2.equals("som") || p1.equals("com") && p2.equals("som")){
+        bot.keyPress(KeyEvent.VK_F7);
+        bot.keyRelease(KeyEvent.VK_F7);
+        }
+        else
         if(p1.equals("delay")){
         int delay = Integer.parseInt(p2);
         bot.delay(delay);

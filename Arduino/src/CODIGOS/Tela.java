@@ -199,19 +199,21 @@ public class Tela extends javax.swing.JFrame {
                         
                         System.out.println(mensagem_da_serial);
                         
-                        /******************************************************************************/
-//                     if(mensagem_da_serial.equals("ligar")){
-//                        play("ligado");
-//                        BTN_ON_OFF.setSelected(true);
-//                        BTN_ON_OFF.setText("ON");
-//                        BTN_ON_OFF.setBackground(Color.green);
-//                    }else
-//                        if(mensagem_da_serial.equals("desligar")){
-//                        play("desligado");
-//                        BTN_ON_OFF.setSelected(false);
-//                        BTN_ON_OFF.setText("OFF");
-//                        BTN_ON_OFF.setBackground(Color.red);
-//                    }else
+/******************************************************************************/
+                     if(mensagem_da_serial.equals("ligar")){
+                        play("ligado");
+                        BTN_ON_OFF.setSelected(true);
+                        BTN_ON_OFF.setText("ON");
+                        BTN_ON_OFF.setBackground(Color.green);
+                    }else
+                        if(mensagem_da_serial.equals("desligar")){
+                        play("desligado");
+                        BTN_ON_OFF.setSelected(false);
+                        BTN_ON_OFF.setText("OFF");
+                        BTN_ON_OFF.setBackground(Color.red);
+                    }
+/******************************************************************************/
+//                        else
 //                        if(mensagem_da_serial.equals("Abrir Google Chrome")){
 //                            program("chrome");
 //                        }

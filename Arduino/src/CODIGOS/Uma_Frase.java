@@ -153,6 +153,9 @@ public void duas_Teclas(String t1, String t2){
         case "f":
             k2 = tecla.f;
             break;
+        case "p":
+            k2 = tecla.p;
+            break;
         case "r":
             k2 = tecla.r;
             break;
@@ -237,12 +240,16 @@ public void Uma_Frase(String p1){
         duas_Teclas("control", "v");
     }
     else
-    if(p1.equals("prximo")){
+    if(p1.equals("prximo") || p1.equals("prxima")){
         duas_Teclas("control", "f");
     }
     else
     if(p1.equals("anterior")){
         duas_Teclas("control", "b");
+    }
+    else
+    if(p1.equals("pausar") || p1.equals("Play")){
+        duas_Teclas("control", "p");
     }
     else
     if((p1.equals("copiar"))){
