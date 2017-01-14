@@ -35,6 +35,14 @@ public class Tela extends javax.swing.JFrame {
     public String porta_selecionada;
     public String mensagem_da_serial;
     
+    public static String frase_completa, frase;
+    
+    public Uma_Frase f1;
+    public Duas_Frases f2;
+    public Tres_Frases f3;
+    
+    public String[] palavras_separadas;
+    
     public int HORIZONTAL, VERTICAL, count;
 
     /**
@@ -130,98 +138,7 @@ public class Tela extends javax.swing.JFrame {
         }
     }
     
-    private final SerialPortEventListener listener = new SerialPortEventListener() {
-        @Override
-        public void serialEvent(SerialPortEvent spe) {
-            try {
-                if (arduino.isMessageAvailable()) {
-                    mensagem_da_serial = ""+arduino.printMessage();
-/******************************************************************************/
-                     if(mensagem_da_serial.equals("ligar")){
-                        play("ligado");
-                        BTN_ON_OFF.setSelected(true);
-                        BTN_ON_OFF.setText("ON");
-                        BTN_ON_OFF.setBackground(Color.green);
-                    }else
-                        if(mensagem_da_serial.equals("desligar")){
-                        play("desligado");
-                        BTN_ON_OFF.setSelected(false);
-                        BTN_ON_OFF.setText("OFF");
-                        BTN_ON_OFF.setBackground(Color.red);
-                    }else
-                        if(mensagem_da_serial.equals("Abrir Google Chrome")){
-                            program("chrome");
-                        }
-                        else
-                        if(mensagem_da_serial.equals("Abrir Paint")){
-                            program("mspaint");
-                        }
-                        else
-                        if(mensagem_da_serial.equals("mouse para cima")){
-                            timer.stop();
-                            robo("mouse para cima");
-                        }
-                        else
-                        if(mensagem_da_serial.equals("Mouse superior esquerda")){
-                            timer.stop();
-                            robo("Mouse superior esquerda");
-                        }
-                        else
-                        if(mensagem_da_serial.equals("Mouse inferior esquerda")){
-                            timer.stop();
-                            robo("Mouse inferior esquerda");
-                        }
-                        else
-                        if(mensagem_da_serial.equals("Mouse superior direita")){
-                            timer.stop();
-                            robo("Mouse superior direita");
-                        }
-                        else
-                        if(mensagem_da_serial.equals("Mouse inferior direita")){
-                            timer.stop();
-                            robo("Mouse inferior direita");
-                        }
-                        else
-                        if(mensagem_da_serial.equals("mouse para baixo")){
-                            timer.stop();
-                            robo("mouse para baixo");
-                        }
-                        else
-                        if(mensagem_da_serial.equals("mouse para esquerda")){
-                            timer.stop();
-                            robo("mouse para esquerda");
-                        }
-                        else
-                        if(mensagem_da_serial.equals("mouse para direita")){
-                            timer.stop();
-                            robo("mouse para direita");
-                        }
-                        else
-                        if(mensagem_da_serial.equals("parar Mouse")){
-                            timer.stop();
-                        }
-                        else
-                        if(mensagem_da_serial.equals("Abrir AD")){
-                            try {
-                            Runtime.getRuntime().exec("cmd /c start %windir%\\explorer.exe shell:Appsfolder\\Microsoft.MicrosoftEdge_8wekyb3d8bbwe!MicrosoftEdge");
-                            } catch (IOException ex) {
-                            Logger.getLogger(Tela.class.getName()).log(Level.SEVERE, null, ex);
-                            }
-                        }
-                        else
-                        if(mensagem_da_serial.equals("Abrir calculadora")){
-                            program("calc");
-                        }
-                        else{
-                            System.out.println(mensagem_da_serial);
-                        }
-/******************************************************************************/
-                }
-            } catch (SerialPortException | ArduinoException ex) {
-//                Logger.getLogger(Tela.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-    };
+    private final SerialPortEventListener listener;
     
     public void on(){
         try {
@@ -245,6 +162,129 @@ public class Tela extends javax.swing.JFrame {
     }
     
     public Tela() {
+        
+        f1 = new Uma_Frase();
+        f2 = new Duas_Frases();
+        f3 = new Tres_Frases();
+        
+        this.listener = new SerialPortEventListener() {
+            @Override
+            public void serialEvent(SerialPortEvent spe) {
+                try {
+                    if (arduino.isMessageAvailable()) {
+                        mensagem_da_serial = ""+arduino.printMessage();
+                        /******************************************************************************/
+                        frase_completa = mensagem_da_serial;
+                        
+                        frase = mensagem_da_serial;
+                        
+                        frase = frase.replace(" ",";");
+                        String[] s = frase.split(";");
+                        
+                        palavras_separadas = new String[s.length];
+                        
+                        System.arraycopy(s, 0, palavras_separadas, 0, s.length);
+                        
+                        if(s.length == 1){                       
+                            f1.Uma_Frase(palavras_separadas[0]);
+                        }
+                        else
+                        if((s.length == 2)){
+                            f2.Duas_Frases(palavras_separadas[0], palavras_separadas[1]);
+                        }
+                        else
+                        if((s.length >= 3)){
+                            f3.Tres_Frases(palavras_separadas[0], palavras_separadas[1], palavras_separadas[2]);
+                        }
+                        
+                        System.out.println(mensagem_da_serial);
+                        
+                        /******************************************************************************/
+//                     if(mensagem_da_serial.equals("ligar")){
+//                        play("ligado");
+//                        BTN_ON_OFF.setSelected(true);
+//                        BTN_ON_OFF.setText("ON");
+//                        BTN_ON_OFF.setBackground(Color.green);
+//                    }else
+//                        if(mensagem_da_serial.equals("desligar")){
+//                        play("desligado");
+//                        BTN_ON_OFF.setSelected(false);
+//                        BTN_ON_OFF.setText("OFF");
+//                        BTN_ON_OFF.setBackground(Color.red);
+//                    }else
+//                        if(mensagem_da_serial.equals("Abrir Google Chrome")){
+//                            program("chrome");
+//                        }
+//                        else
+//                        if(mensagem_da_serial.equals("Abrir Paint")){
+//                            program("mspaint");
+//                        }
+//                        else
+//                        if(mensagem_da_serial.equals("mouse para cima")){
+//                            timer.stop();
+//                            robo("mouse para cima");
+//                        }
+//                        else
+//                        if(mensagem_da_serial.equals("Mouse superior esquerda")){
+//                            timer.stop();
+//                            robo("Mouse superior esquerda");
+//                        }
+//                        else
+//                        if(mensagem_da_serial.equals("Mouse inferior esquerda")){
+//                            timer.stop();
+//                            robo("Mouse inferior esquerda");
+//                        }
+//                        else
+//                        if(mensagem_da_serial.equals("Mouse superior direita")){
+//                            timer.stop();
+//                            robo("Mouse superior direita");
+//                        }
+//                        else
+//                        if(mensagem_da_serial.equals("Mouse inferior direita")){
+//                            timer.stop();
+//                            robo("Mouse inferior direita");
+//                        }
+//                        else
+//                        if(mensagem_da_serial.equals("mouse para baixo")){
+//                            timer.stop();
+//                            robo("mouse para baixo");
+//                        }
+//                        else
+//                        if(mensagem_da_serial.equals("mouse para esquerda")){
+//                            timer.stop();
+//                            robo("mouse para esquerda");
+//                        }
+//                        else
+//                        if(mensagem_da_serial.equals("mouse para direita")){
+//                            timer.stop();
+//                            robo("mouse para direita");
+//                        }
+//                        else
+//                        if(mensagem_da_serial.equals("parar Mouse")){
+//                            timer.stop();
+//                        }
+//                        else
+//                        if(mensagem_da_serial.equals("Abrir AD")){
+//                            try {
+//                            Runtime.getRuntime().exec("cmd /c start %windir%\\explorer.exe shell:Appsfolder\\Microsoft.MicrosoftEdge_8wekyb3d8bbwe!MicrosoftEdge");
+//                            } catch (IOException ex) {
+//                            Logger.getLogger(Tela.class.getName()).log(Level.SEVERE, null, ex);
+//                            }
+//                        }
+//                        else
+//                        if(mensagem_da_serial.equals("Abrir calculadora")){
+//                            program("calc");
+//                        }
+//                        else{
+//                            System.out.println(mensagem_da_serial);
+//                        }
+/******************************************************************************/
+                    }
+                } catch (SerialPortException | ArduinoException ex) {
+//                Logger.getLogger(Tela.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        };
         initComponents();
     }
 
