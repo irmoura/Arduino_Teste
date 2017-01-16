@@ -130,9 +130,9 @@ public class Tela extends javax.swing.JFrame {
         }
     }
     
-    public void play(String nomeDoAudio){
+    public void play(String frase){
         try {
-            Runtime.getRuntime().exec("cmd /c start /B C:\\GA_XLSX\\Player\\dist\\Player.jar "+nomeDoAudio);
+            Runtime.getRuntime().exec("cmd /c start /B C:\\GA_XLSX\\Player\\dist\\Player_2.exe "+frase);
         } catch (IOException ex) {
             Logger.getLogger(Tela.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -198,6 +198,8 @@ public class Tela extends javax.swing.JFrame {
                         }
                         
                         System.out.println(mensagem_da_serial);
+                        
+                        play(mensagem_da_serial);
                         
 /******************************************************************************/
                      if(mensagem_da_serial.equals("ligar")){
