@@ -8,6 +8,7 @@ package CODIGOS;
 import java.awt.AWTException;
 import java.awt.Robot;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -37,6 +38,14 @@ public class Duas_Frases {
         if(p1.equals("sem") && p2.equals("som") || p1.equals("com") && p2.equals("som")){
         bot.keyPress(KeyEvent.VK_F7);
         bot.keyRelease(KeyEvent.VK_F7);
+        }
+        else
+        if(p1.equals("Desligar") && p2.equals("computador")){
+        try {
+            Runtime.getRuntime().exec("cmd /c start shutdown -p");
+        } catch (IOException ex) {
+            Logger.getLogger(Duas_Frases.class.getName()).log(Level.SEVERE, null, ex);
+        }
         }
         else
         if(p1.equals("delay")){
