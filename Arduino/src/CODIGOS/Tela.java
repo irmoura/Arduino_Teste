@@ -205,6 +205,8 @@ public class Tela extends javax.swing.JFrame {
                         }
                         
                         System.out.println(mensagem_da_serial);
+                        
+                        jTextArea1.setText(mensagem_da_serial);
 
                     }
                 } catch (SerialPortException | ArduinoException ex) {
@@ -229,6 +231,8 @@ public class Tela extends javax.swing.JFrame {
         jComboBox1 = new javax.swing.JComboBox<>();
         jButton_Conectar = new javax.swing.JButton();
         jButton_Sair = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -261,23 +265,31 @@ public class Tela extends javax.swing.JFrame {
             }
         });
 
+        jTextArea1.setEditable(false);
+        jTextArea1.setColumns(20);
+        jTextArea1.setRows(5);
+        jScrollPane1.setViewportView(jTextArea1);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jScrollPane1)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabelPortasDisponiveis)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(BTN_ON_OFF))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton_Sair)
-                    .addComponent(jButton_Conectar))
-                .addContainerGap(36, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabelPortasDisponiveis)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(BTN_ON_OFF))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton_Conectar)
+                            .addComponent(jButton_Sair, javax.swing.GroupLayout.Alignment.TRAILING))))
+                .addContainerGap(37, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -287,7 +299,9 @@ public class Tela extends javax.swing.JFrame {
                     .addComponent(jLabelPortasDisponiveis)
                     .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton_Conectar))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 83, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 68, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(BTN_ON_OFF)
                     .addComponent(jButton_Sair))
@@ -349,6 +363,7 @@ public class Tela extends javax.swing.JFrame {
         porta_selecionada = ""+jComboBox1.getSelectedItem();
         inicia_comunicao(porta_selecionada);
         BTN_ON_OFF.setEnabled(true);
+        jButton_Conectar.setEnabled(false);
     }//GEN-LAST:event_jButton_ConectarActionPerformed
 
     private void jButton_SairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_SairActionPerformed
@@ -402,5 +417,7 @@ public class Tela extends javax.swing.JFrame {
     private javax.swing.JButton jButton_Sair;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabelPortasDisponiveis;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextArea jTextArea1;
     // End of variables declaration//GEN-END:variables
 }

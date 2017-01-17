@@ -6,6 +6,7 @@
 package CODIGOS;
 
 import static CODIGOS.Tela.f1;
+import static CODIGOS.Tela.play;
 import static CODIGOS.Tela.timer;
 import java.awt.AWTException;
 import java.awt.Robot;
@@ -44,6 +45,12 @@ public class Duas_Frases {
         else
         if(p1.equals("Desligar") && p2.equals("computador")){
         try {
+            try {
+                play("desligando o computador");
+                Thread.sleep(3000);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Duas_Frases.class.getName()).log(Level.SEVERE, null, ex);
+            }
             Runtime.getRuntime().exec("cmd /c start shutdown -p");
         } catch (IOException ex) {
             Logger.getLogger(Duas_Frases.class.getName()).log(Level.SEVERE, null, ex);
