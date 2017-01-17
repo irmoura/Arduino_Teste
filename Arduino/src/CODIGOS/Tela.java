@@ -28,24 +28,25 @@ import jssc.SerialPortException;
  */
 public class Tela extends javax.swing.JFrame {
     
-    public PanamaHitek_Arduino arduino = new PanamaHitek_Arduino();
-    public Timer timer;
-    public Robot bot;
-    public Random random;
+    public static PanamaHitek_Arduino arduino;
+    public static SerialPortEventListener listener;
+    public static Timer timer;
+    public static Robot bot;
+    public static Random random;
     
-    public String porta = "";
-    public String porta_selecionada;
-    public String mensagem_da_serial;
+    public static String porta = "";
+    public static String porta_selecionada;
+    public static String mensagem_da_serial;
     
     public static String frase_completa, frase;
     
-    public Uma_Frase f1;
-    public Duas_Frases f2;
-    public Tres_Frases f3;
+    public static Uma_Frase f1;
+    public static Duas_Frases f2;
+    public static Tres_Frases f3;
     
-    public String[] palavras_separadas;
+    public static String[] palavras_separadas;
     
-    public int HORIZONTAL, VERTICAL, count;
+    public static int HORIZONTAL, VERTICAL, count;
     public static int na;
 
     /**
@@ -53,7 +54,7 @@ public class Tela extends javax.swing.JFrame {
      * @param comando
      */
     
-    public void robo(String comando){
+    public static void robo(String comando){
         timer = new Timer(80, (ActionEvent e) ->{
             try {
                 bot = new Robot();
@@ -141,8 +142,6 @@ public class Tela extends javax.swing.JFrame {
         }
     }
     
-    private final SerialPortEventListener listener;
-    
     public void on(){
         try {
             arduino.sendData("ligar");
@@ -170,6 +169,7 @@ public class Tela extends javax.swing.JFrame {
         f2 = new Duas_Frases();
         f3 = new Tres_Frases();
         random = new Random();
+        arduino = new PanamaHitek_Arduino();
         
         this.listener = new SerialPortEventListener() {
             @Override
@@ -180,7 +180,7 @@ public class Tela extends javax.swing.JFrame {
                         na = random.nextInt(4);//ESCOLHE UM NUMERO ALEATORIO ENTRE 0 E 3
                         
                         mensagem_da_serial = ""+arduino.printMessage();
-                        /******************************************************************************/
+
                         frase_completa = mensagem_da_serial;
                         
                         frase = mensagem_da_serial;
@@ -205,74 +205,7 @@ public class Tela extends javax.swing.JFrame {
                         }
                         
                         System.out.println(mensagem_da_serial);
-                        
-//                        if(mensagem_da_serial.equals("Abrir Google Chrome")){
-//                            program("chrome");
-//                        }
-//                        else
-//                        if(mensagem_da_serial.equals("Abrir Paint")){
-//                            program("mspaint");
-//                        }
-//                        else
-//                        if(mensagem_da_serial.equals("mouse para cima")){
-//                            timer.stop();
-//                            robo("mouse para cima");
-//                        }
-//                        else
-//                        if(mensagem_da_serial.equals("Mouse superior esquerda")){
-//                            timer.stop();
-//                            robo("Mouse superior esquerda");
-//                        }
-//                        else
-//                        if(mensagem_da_serial.equals("Mouse inferior esquerda")){
-//                            timer.stop();
-//                            robo("Mouse inferior esquerda");
-//                        }
-//                        else
-//                        if(mensagem_da_serial.equals("Mouse superior direita")){
-//                            timer.stop();
-//                            robo("Mouse superior direita");
-//                        }
-//                        else
-//                        if(mensagem_da_serial.equals("Mouse inferior direita")){
-//                            timer.stop();
-//                            robo("Mouse inferior direita");
-//                        }
-//                        else
-//                        if(mensagem_da_serial.equals("mouse para baixo")){
-//                            timer.stop();
-//                            robo("mouse para baixo");
-//                        }
-//                        else
-//                        if(mensagem_da_serial.equals("mouse para esquerda")){
-//                            timer.stop();
-//                            robo("mouse para esquerda");
-//                        }
-//                        else
-//                        if(mensagem_da_serial.equals("mouse para direita")){
-//                            timer.stop();
-//                            robo("mouse para direita");
-//                        }
-//                        else
-//                        if(mensagem_da_serial.equals("parar Mouse")){
-//                            timer.stop();
-//                        }
-//                        else
-//                        if(mensagem_da_serial.equals("Abrir AD")){
-//                            try {
-//                            Runtime.getRuntime().exec("cmd /c start %windir%\\explorer.exe shell:Appsfolder\\Microsoft.MicrosoftEdge_8wekyb3d8bbwe!MicrosoftEdge");
-//                            } catch (IOException ex) {
-//                            Logger.getLogger(Tela.class.getName()).log(Level.SEVERE, null, ex);
-//                            }
-//                        }
-//                        else
-//                        if(mensagem_da_serial.equals("Abrir calculadora")){
-//                            program("calc");
-//                        }
-//                        else{
-//                            System.out.println(mensagem_da_serial);
-//                        }
-/******************************************************************************/
+
                     }
                 } catch (SerialPortException | ArduinoException ex) {
 //                Logger.getLogger(Tela.class.getName()).log(Level.SEVERE, null, ex);

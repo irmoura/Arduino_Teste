@@ -5,6 +5,8 @@
  */
 package CODIGOS;
 
+import static CODIGOS.Tela.f1;
+import static CODIGOS.Tela.timer;
 import java.awt.AWTException;
 import java.awt.Robot;
 import java.awt.event.KeyEvent;
@@ -56,6 +58,22 @@ public class Duas_Frases {
         if((p1.equals("menu")) && (p2.equals("iniciar"))){
         bot.keyPress(KeyEvent.VK_WINDOWS);
         bot.keyRelease(KeyEvent.VK_WINDOWS);
-    }
+        }
+        else
+        if((p1.equals("parar")) && (p2.equals("Mouse"))){
+        timer.stop();
+        }
+        else
+        if((p1.equals("que")) && (p2.equals("horas"))){
+        f1.Uma_Frase(p2);
+        }
+        else
+        if((p1.equals("Abrir")) && (p2.equals("AD"))){
+            try {
+                Runtime.getRuntime().exec("cmd /c start %windir%\\explorer.exe shell:Appsfolder\\Microsoft.MicrosoftEdge_8wekyb3d8bbwe!MicrosoftEdge");
+            } catch (IOException ex) {
+                Logger.getLogger(Duas_Frases.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 }

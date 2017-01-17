@@ -6,6 +6,7 @@
 package CODIGOS;
 
 import static CODIGOS.Tela.BTN_ON_OFF;
+import static CODIGOS.Tela.play;
 import java.awt.AWTException;
 import java.awt.Color;
 import java.awt.Robot;
@@ -365,12 +366,14 @@ public void Uma_Frase(String p1){
         BTN_ON_OFF.setSelected(true);
         BTN_ON_OFF.setText("ON");
         BTN_ON_OFF.setBackground(Color.green);
+        play("ligar");
     }
     else
     if((p1.equals("desligar"))){
         BTN_ON_OFF.setSelected(false);
         BTN_ON_OFF.setText("OFF");
         BTN_ON_OFF.setBackground(Color.red);
+        play("desligar");
     }
     else
     if((p1.equals("calc")) || (p1.equals("calculadora"))){
