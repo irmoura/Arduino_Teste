@@ -25,6 +25,8 @@ public class Memoria {
     
     public static void verificaFrase(String TEXTO_USUARIO) throws IOException{
         
+        System.out.println(Tela.mensagem_da_serial);
+        
         String tela_da_conversa = CODIGOS.Tela.TEXTO_CONVERSA.getText();
         
         File dir = new File(CODIGOS.Diretorio.letra+":\\"+CODIGOS.Diretorio.pasta_do_programa+"\\Perguntas");
