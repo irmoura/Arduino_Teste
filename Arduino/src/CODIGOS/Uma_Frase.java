@@ -307,6 +307,10 @@ public void Uma_Frase(String p1){
     }
     else
     if((p1.equals("horas"))){
+        Calendar calendario = Calendar.getInstance();
+        int hora = calendario.get(Calendar.HOUR);
+        int minuto = calendario.get(Calendar.MINUTE);
+        int dia_int = calendario.get(Calendar.DAY_OF_WEEK);
         if(Tela.na == 0){
             Tela.play("Agora são "+hora+" horas e "+minuto+" minutos");
         }else
