@@ -206,7 +206,7 @@ public class Tela extends javax.swing.JFrame {
                         
                         System.out.println(mensagem_da_serial);
                         
-                        jTextArea1.setText(mensagem_da_serial);
+                        TEXTO_CONVERSA.setText(mensagem_da_serial);
 
                     }
                 } catch (SerialPortException | ArduinoException ex) {
@@ -232,7 +232,7 @@ public class Tela extends javax.swing.JFrame {
         jButton_Conectar = new javax.swing.JButton();
         jButton_Sair = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        TEXTO_CONVERSA = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -265,10 +265,10 @@ public class Tela extends javax.swing.JFrame {
             }
         });
 
-        jTextArea1.setEditable(false);
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        TEXTO_CONVERSA.setEditable(false);
+        TEXTO_CONVERSA.setColumns(20);
+        TEXTO_CONVERSA.setRows(5);
+        jScrollPane1.setViewportView(TEXTO_CONVERSA);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -323,6 +323,8 @@ public class Tela extends javax.swing.JFrame {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
+        
+        Diretorio.pastaPrincipal();
         
         /*APENAS INICIALIZANDO O TIMER*/
         timer = new Timer(1000, (ActionEvent e) ->{
@@ -413,11 +415,11 @@ public class Tela extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public static javax.swing.JToggleButton BTN_ON_OFF;
+    public static javax.swing.JTextArea TEXTO_CONVERSA;
     private javax.swing.JButton jButton_Conectar;
     private javax.swing.JButton jButton_Sair;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabelPortasDisponiveis;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
     // End of variables declaration//GEN-END:variables
 }

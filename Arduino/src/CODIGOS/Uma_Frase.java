@@ -410,6 +410,14 @@ public void Uma_Frase(String p1){
         StringSelection selection = new StringSelection(text);
         clipboard.setContents(selection, null);
     }
-}
-   
+    else{
+    try {
+    /**/
+    Memoria.verificaFrase(Tela.mensagem_da_serial);
+    /**/
+    } catch (IOException ex) {
+        Logger.getLogger(Uma_Frase.class.getName()).log(Level.SEVERE, null, ex);
+    }
+        }
+    }
 }

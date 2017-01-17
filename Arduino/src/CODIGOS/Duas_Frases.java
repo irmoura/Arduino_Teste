@@ -82,5 +82,14 @@ public class Duas_Frases {
                 Logger.getLogger(Duas_Frases.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+        else{
+        try {
+        /**/
+        Memoria.verificaFrase(Tela.mensagem_da_serial);
+        /**/
+        } catch (IOException ex) {
+        Logger.getLogger(Uma_Frase.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        }
     }
 }

@@ -178,6 +178,15 @@ public void Tres_Frases(String p1, String p2, String p3){
     if((p1.equals("Que")) && (p2.equals("horas"))&& (p3.equals("so"))){
         f1.Uma_Frase(p2);
     }
+    else{
+        try {
+        /**/
+        Memoria.verificaFrase(Tela.mensagem_da_serial);
+        /**/
+        } catch (IOException ex) {
+        Logger.getLogger(Uma_Frase.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        }
 }
     
 }
