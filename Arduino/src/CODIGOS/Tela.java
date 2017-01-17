@@ -14,6 +14,7 @@ import java.awt.MouseInfo;
 import java.awt.Robot;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.Timer;
@@ -30,6 +31,7 @@ public class Tela extends javax.swing.JFrame {
     public PanamaHitek_Arduino arduino = new PanamaHitek_Arduino();
     public Timer timer;
     public Robot bot;
+    public Random random;
     
     public String porta = "";
     public String porta_selecionada;
@@ -44,6 +46,7 @@ public class Tela extends javax.swing.JFrame {
     public String[] palavras_separadas;
     
     public int HORIZONTAL, VERTICAL, count;
+    public static int na;
 
     /**
      * Creates new form Tela
@@ -130,7 +133,7 @@ public class Tela extends javax.swing.JFrame {
         }
     }
     
-    public void play(String frase){
+    public static void play(String frase){
         try {
             Runtime.getRuntime().exec("cmd /c start /B C:\\GA_XLSX\\Player\\dist\\Player_2.exe "+frase);
         } catch (IOException ex) {
@@ -166,12 +169,16 @@ public class Tela extends javax.swing.JFrame {
         f1 = new Uma_Frase();
         f2 = new Duas_Frases();
         f3 = new Tres_Frases();
+        random = new Random();
         
         this.listener = new SerialPortEventListener() {
             @Override
             public void serialEvent(SerialPortEvent spe) {
                 try {
                     if (arduino.isMessageAvailable()) {
+                        
+                        na = random.nextInt(4);//ESCOLHE UM NUMERO ALEATORIO ENTRE 0 E 3
+                        
                         mensagem_da_serial = ""+arduino.printMessage();
                         /******************************************************************************/
                         frase_completa = mensagem_da_serial;
@@ -199,17 +206,15 @@ public class Tela extends javax.swing.JFrame {
                         
                         System.out.println(mensagem_da_serial);
                         
-                        play(mensagem_da_serial);
+//                        play(mensagem_da_serial);
                         
 /******************************************************************************/
                      if(mensagem_da_serial.equals("ligar")){
-                        play("ligado");
                         BTN_ON_OFF.setSelected(true);
                         BTN_ON_OFF.setText("ON");
                         BTN_ON_OFF.setBackground(Color.green);
                     }else
                         if(mensagem_da_serial.equals("desligar")){
-                        play("desligado");
                         BTN_ON_OFF.setSelected(false);
                         BTN_ON_OFF.setText("OFF");
                         BTN_ON_OFF.setBackground(Color.red);

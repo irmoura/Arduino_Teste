@@ -11,6 +11,7 @@ import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -20,6 +21,11 @@ import javax.swing.JOptionPane;
  * @author Ibyte
  */
 public class Uma_Frase {
+    
+Calendar calendario = Calendar.getInstance();
+int hora = calendario.get(Calendar.HOUR);
+int minuto = calendario.get(Calendar.MINUTE);
+int dia_int = calendario.get(Calendar.DAY_OF_WEEK);
     
 public int tempo = 1000;
 
@@ -298,6 +304,51 @@ public void Uma_Frase(String p1){
     else
     if((p1.equals("Chrome"))){
         programa(p1);
+    }
+    else
+    if((p1.equals("horas"))){
+        if(Tela.na == 0){
+            Tela.play("Agora são "+hora+" horas e "+minuto+" minutos");
+        }else
+        if(Tela.na == 1){
+            Tela.play("São "+hora+" e "+minuto);
+        }else
+        if(Tela.na == 2){
+            Tela.play("Neste momento "+hora+" e "+minuto);
+        }else
+        if(Tela.na == 3){
+            Tela.play(hora+" e "+minuto);
+        }
+    }
+    else
+    if((p1.equals("dia"))){
+        if(dia_int == 1){
+                 Tela.play("Hoje é domingo");
+             }
+             else
+             if(dia_int == 2){
+                 Tela.play("Hoje é segunda feira");
+             }
+             else
+             if(dia_int == 3){
+                 Tela.play("Hoje é terça feira");
+             }
+             else
+             if(dia_int == 4){
+                 Tela.play("Hoje é quarta feira");
+             }
+             else
+             if(dia_int == 5){
+                 Tela.play("Hoje é quinta feira");
+             }
+             else
+             if(dia_int == 6){
+                 Tela.play("Hoje é sexta feira");
+             }
+             else
+             if(dia_int == 7){
+                 Tela.play("Hoje é sábado");
+             }
     }
     else
     if((p1.equals("control"))){
