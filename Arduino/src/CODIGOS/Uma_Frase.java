@@ -5,7 +5,9 @@
  */
 package CODIGOS;
 
+import static CODIGOS.Tela.BTN_ON_OFF;
 import java.awt.AWTException;
+import java.awt.Color;
 import java.awt.Robot;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
@@ -357,6 +359,18 @@ public void Uma_Frase(String p1){
     else
     if((p1.equals("control"))){
         programa(p1); 
+    }
+    else
+    if((p1.equals("ligar"))){
+        BTN_ON_OFF.setSelected(true);
+        BTN_ON_OFF.setText("ON");
+        BTN_ON_OFF.setBackground(Color.green);
+    }
+    else
+    if((p1.equals("desligar"))){
+        BTN_ON_OFF.setSelected(false);
+        BTN_ON_OFF.setText("OFF");
+        BTN_ON_OFF.setBackground(Color.red);
     }
     else
     if((p1.equals("calc")) || (p1.equals("calculadora"))){

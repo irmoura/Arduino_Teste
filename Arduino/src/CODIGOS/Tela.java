@@ -206,21 +206,6 @@ public class Tela extends javax.swing.JFrame {
                         
                         System.out.println(mensagem_da_serial);
                         
-//                        play(mensagem_da_serial);
-                        
-/******************************************************************************/
-                     if(mensagem_da_serial.equals("ligar")){
-                        BTN_ON_OFF.setSelected(true);
-                        BTN_ON_OFF.setText("ON");
-                        BTN_ON_OFF.setBackground(Color.green);
-                    }else
-                        if(mensagem_da_serial.equals("desligar")){
-                        BTN_ON_OFF.setSelected(false);
-                        BTN_ON_OFF.setText("OFF");
-                        BTN_ON_OFF.setBackground(Color.red);
-                    }
-/******************************************************************************/
-//                        else
 //                        if(mensagem_da_serial.equals("Abrir Google Chrome")){
 //                            program("chrome");
 //                        }
@@ -479,7 +464,7 @@ public class Tela extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JToggleButton BTN_ON_OFF;
+    public static javax.swing.JToggleButton BTN_ON_OFF;
     private javax.swing.JButton jButton_Conectar;
     private javax.swing.JButton jButton_Sair;
     private javax.swing.JComboBox<String> jComboBox1;
