@@ -13,6 +13,8 @@ import com.gargoylesoftware.htmlunit.html.HtmlButton;
 import com.gargoylesoftware.htmlunit.html.HtmlForm;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.apache.xerces.util.URI;
 
 /**
@@ -21,13 +23,27 @@ import org.apache.xerces.util.URI;
  */
 public class GoogleRes {
     public static void main(String[] args) throws FailingHttpStatusCodeException, URI.MalformedURIException, IOException {
+        
+        Logger.getLogger("com.gargoylesoftware.htmlunit").setLevel(Level.OFF);
+        
         WebClient webClient = new WebClient(BrowserVersion.CHROME);
         
         webClient.getOptions().setJavaScriptEnabled(false);
         webClient.getOptions().setPrintContentOnFailingStatusCode(false);
         webClient.getOptions().setThrowExceptionOnScriptError(false);
         
-        String[] searchString = {"supernova"};
+        /*LINHA 61*/
+//        String[] searchString = {"seis dividido por dois"};//61
+//        String[] searchString = {"seis mais dois"};//61
+//        String[] searchString = {"seis menos dois"};//61
+//        String[] searchString = {"seis vezes dois"};//61
+        //String[] searchString = {"6/2"};
+//        String[] searchString = {"6+2"};
+        //String[] searchString = {"6-2"};
+        //String[] searchString = {"6*2"};
+        //String[] searchString = {"100-10%"};
+        
+        String[] searchString = {"significado inteligência"};//61
         
         HtmlPage page = webClient.getPage("http://www.google.com/");
         
@@ -45,9 +61,10 @@ public class GoogleRes {
         String results[] = pageText.split("\n");
         
         for(int i = 0; i < results.length; i++){
-            if(results[i].contains(searchString[0]))
-                System.out.println(i+"ª : "+results[i]);
+//            if(results[i].contains(searchString[0]))
+//                System.out.println(i+"ª : "+results[i]);
         }
-        play(""+results[63]);
+        System.out.println(results[61]);
+        play(""+results[61]);
     }
 }
